@@ -5,7 +5,8 @@ module Text.ICalendar.Parser.Common where
 
 import           Control.Applicative
 import           Control.Arrow                (second)
-import           Control.Monad.Error          hiding (mapM)
+import           Control.Monad
+import           Control.Monad.Except
 import           Control.Monad.RWS            (MonadState (get, put),
                                                MonadWriter (tell), RWS, asks,
                                                modify)
@@ -27,7 +28,6 @@ import qualified Data.Text.Lazy.Encoding      as TE
 import           Data.Time                    (Day, LocalTime (LocalTime),
                                                TimeOfDay (), UTCTime (UTCTime))
 import qualified Data.Time                    as Time
-import           Data.Traversable             (mapM)
 import qualified Network.URI                  as URI
 import           Prelude                      hiding (mapM)
 
@@ -50,7 +50,7 @@ data Content = ContentLine P.SourcePos (CI Text) [(CI Text, [Text])] ByteString
 
 type TextParser = P.Parsec ByteString DecodingFunctions
 
-type ContentParser = ErrorT String -- Fatal errors.
+type ContentParser = ExceptT String -- Fatal errors.
                             (RWS DecodingFunctions
                                  [String] -- Warnings.
                                  (P.SourcePos, [Content]))

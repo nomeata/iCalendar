@@ -5,7 +5,8 @@
 module Text.ICalendar.Parser.Properties where
 
 import           Control.Applicative
-import           Control.Monad.Error          hiding (mapM)
+import           Control.Monad
+import           Control.Monad.Except
 import           Control.Monad.RWS            (asks)
 import qualified Data.ByteString.Base64.Lazy  as B64
 import qualified Data.ByteString.Lazy.Char8   as B
@@ -17,7 +18,6 @@ import           Data.Maybe
 import qualified Data.Set                     as S
 import           Data.Text.Lazy               (Text)
 import qualified Data.Text.Lazy               as T
-import           Data.Traversable             (mapM)
 import qualified Data.Version                 as Ver
 import           Prelude                      hiding (mapM)
 import           Text.ParserCombinators.ReadP (readP_to_S)
